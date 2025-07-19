@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>プラネタリーラーニング | 両極を統合し、違いがお互いのギフトになる学び</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght @400;700&family=Klee+One:wght@400;600&family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ------------------ 基本変数 ------------------ */
+    :root {
+      --primary: #026873;
+      --accent: #F6723C;
+      --neon: #00FF88;
+      --ai: #B29CFF;
+      --dark: #0C0F11;
+      --light-dark: #1a1e22;
+      --font-hippie: 'Klee One', cursive;
+      --font-hacker: 'IBM Plex Mono', monospace;
+      --font-geo: 'Montserrat', sans-serif;
+    }
+
+    /* ------------------ 基本スタイル ------------------ */
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      font-family: var(--font-geo);
+      color: #fff;
+      background: var(--dark);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    section {
+      padding: 10vh 5vw;
+      opacity: 0;
+      transform: translateY(4rem);
+      transition: opacity .8s ease, transform .8s ease;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative; /* For potential overlays */
+      z-index: 1;
+      background-color: var(--dark); /* Default background for sections */
+      background-image: radial-gradient(circle at center, rgba(2, 104, 115, 0.05) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    h1, h2, h3 {
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+      color: var(--neon);
+      text-shadow: 0 0 5px rgba(0, 255, 136, 0.5); /* Subtle neon glow */
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 6rem);
+      font-family: var(--font-hippie);
+      color: #fff; /* Hero h1 should be white */
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* Stronger glow for hero title */
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    h3 {
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
+      color: var(--accent);
+      text-shadow: 0 0 3px rgba(246, 114, 60, 0.5); /* Subtle accent glow */
+    }
+
+    p {
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 1.5rem;
+    }
+
+    ul li {
+      margin-bottom: 0.8rem;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    ul li::before {
+      content: '•'; /* Custom bullet point */
+      color: var(--neon);
+      position: absolute;
+      left: 0;
+      font-size: 1.2em;
+      line-height: 1;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+      background: var(--light-dark);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0, 255, 136, 0.1); /* Subtle table glow */
+    }
+
+    table th, table td {
+      padding: 1rem;
+      border: 1px solid var(--primary);
+      text-align: left;
+    }
+
+    table th {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    table tbody tr:nth-child(odd) {
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    /* 陰陽テーブルのスタイル */
+    #how table tr.yang {
+      background-color: rgba(2, 104, 115, 0.3); /* Primary color with transparency */
+    }
+
+    #how table tr.yin {
+      background-color: rgba(178, 156, 255, 0.2); /* AI color with transparency */
+    }
+
+    #how table tr.yang td:nth-child(2),
+    #how table tr.yin td:nth-child(2) {
+      font-weight: bold;
+    }
+
+    #how table tr.yang td:nth-child(2) {
+      color: var(--neon);
+    }
+
+    #how table tr.yin td:nth-child(2) {
+      color: var(--ai);
+    }
+
+    /* ---------- グリッド表示のリスト ---------- */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .grid-item {
+      background: var(--light-dark);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid var(--primary);
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+      box-shadow: 0 0 10px rgba(2, 104, 115, 0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .grid-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(2, 104, 115, 0.4);
+    }
+
+    /* ---------- ボタンの共通スタイル ---------- */
+    .btn {
+      margin-top: 3rem;
+      padding: 1rem 3rem;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 50px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--accent);
+      transition: transform .2s, box-shadow .2s;
+      text-decoration: none; /* For anchor buttons */
+      display: inline-block;
+    }
+
+    .btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px var(--accent);
+    }
+
+    /* ---------- Hero ---------- */
+    #hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+      padding: 0 5vw; /* Adjust padding for hero */
+      background-image: none; /* Remove pattern for hero */
+    }
+
+    #hero:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url('assets/img/hero.jpg') center/cover no-repeat;
+      filter: brightness(.5);
+      z-index: -2;
+    }
+
+    #hero p {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      font-family: var(--font-hacker);
+      letter-spacing: .05em;
+      opacity: .9;
+      color: #fff;
+    }
+
+    #cta-btn {
+      margin-top: 3rem;
+    }
+
+    /* ---------- About Planetary Learning ---------- */
+    #about-planetary-learning p {
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+
+    /* ---------- Timeline ---------- */
+    #history ul {
+      list-style: disc; /* Revert to disc for this specific list */
+      padding-left: 20px;
+    }
+
+    #timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      overflow-x: hidden; /* No horizontal scroll */
+      scroll-snap-type: none; /* No snap */
+      padding-bottom: 0; /* No padding for scrollbar */
+    }
+
+    #timeline .card {
+      min-width: auto; /* Remove min-width */
+      width: 100%; /* Take full width */
+      max-width: 600px; /* Limit max width */
+      margin: 0 auto; /* Center cards */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      background: var(--light-dark);
+      border: 1px solid var(--primary);
+      padding: 1.5rem;
+      border-radius: 16px;
+      box-shadow: 0 0 10px rgba(2, 104, 115, 0.2); /* Subtle card glow */
+    }
+
+    #timeline .card img {
+      width: 100%;
+      height: 180px; /* Fixed height for consistency */
+      object-fit: cover; /* Cover the area */
+      border-radius: 12px;
+      margin-bottom: 1rem;
+    }
+
+    #timeline .card h3 {
+      color: var(--accent);
+      margin-bottom: .5rem;
+      font-family: var(--font-hacker);
+    }
+
+    #timeline::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    #timeline::-webkit-scrollbar-track {
+      background: var(--dark);
+      border-radius: 10px;
+    }
+
+    #timeline::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 10px;
+    }
+
+    /* ---------- Yin-Yang 背景 ---------- */
+    #yin-yang {
+      background: url('assets/img/yin-yang-loop.png') center/contain no-repeat fixed;
+      min-height: 80vh;
+      filter: drop-shadow(0 0 10px var(--neon));
+      background-size: 40%; /* Adjust size for better visibility */
+      background-position: center;
+      position: relative;
+      z-index: 0; /* Ensure it's behind content */
+      background-image: none; /* Remove pattern for yin-yang */
+    }
+    #yin-yang::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3); /* Subtle overlay */
+      z-index: -1;
+    }
+
+    /* ---------- Culture ---------- */
+    #culture {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      align-items: center;
+      text-align: center;
+    }
+
+    #culture img {
+      width: 100%;
+      height: 200px; /* Fixed height for consistency */
+      object-fit: cover; /* Cover the area */
+      border-radius: 16px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+    }
+
+    #culture p {
+      margin-top: 1rem;
+      font-size: 1rem;
+    }
+
+    /* ---------- CTA ---------- */
+    #cta {
+      background: var(--light-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 60vh;
+      padding: 5vh 5vw;
+      background-image: none; /* Remove pattern for CTA */
+    }
+
+    #cta img {
+      width: 70%;
+      max-width: 600px;
+      filter: drop-shadow(0 0 20px var(--neon));
+      animation: pulse 3s ease-in-out infinite;
+      margin-bottom: 2rem;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: .9;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    #cta-btn-bottom {
+      margin-top: 0; /* Reset margin for this specific button */
+      margin-bottom: 2rem;
+    }
+
+    .cta-form {
+      background: var(--dark);
+      padding: 2rem;
+      border-radius: 12px;
+      border: 1px solid var(--primary);
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 0 15px rgba(0, 255, 136, 0.1); /* Subtle form glow */
+    }
+
+    .cta-form h3 {
+      color: var(--neon);
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-form form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .cta-form input[type="email"] {
+      padding: 0.8rem;
+      border-radius: 8px;
+      border: 1px solid var(--primary);
+      background: #222;
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    .cta-form button[type="submit"] {
+      padding: 0.8rem;
+      border-radius: 8px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .cta-form button[type="submit"]:hover {
+      background: #e06230; /* Darker accent on hover */
+    }
+
+    /* ---------- About Us ---------- */
+    #about-us {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      text-align: left;
+    }
+
+    #about-us div {
+      background: var(--light-dark);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid var(--primary);
+      box-shadow: 0 0 10px rgba(2, 104, 115, 0.2); /* Subtle card glow */
+    }
+
+    #about-us h3 {
+      color: var(--neon);
+      margin-bottom: 0.5rem;
+    }
+
+    #about-us p {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    /* ---------- Responsive Adjustments ---------- */
+    @media (max-width: 768px) {
+      section {
+        padding: 8vh 4vw;
+      }
+
+      h2 {
+        font-size: clamp(1.8rem, 5vw, 3rem);
+      }
+
+      .btn {
+        padding: 0.8rem 2rem;
+        font-size: 1rem;
+      }
+
+      #timeline {
+        flex-wrap: wrap; /* Allow cards to wrap on smaller screens */
+        justify-content: center;
+      }
+
+      #timeline .card {
+        min-width: 90%; /* Make cards take more width on small screens */
+      }
+
+      #culture {
+        grid-template-columns: 1fr; /* Stack culture items on small screens */
+      }
+    }
+
+    /* ---------- ナビゲーションバー ---------- */
+    #navbar {
+      background: rgba(12, 15, 17, 0.9); /* var(--dark) with transparency */
+      padding: 1rem 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    #navbar .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 5vw;
+    }
+
+    #navbar .logo {
+      color: var(--neon);
+      font-family: var(--font-hacker);
+      font-size: 1.8rem;
+      text-decoration: none;
+      text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
+    }
+
+    #navbar ul {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    #navbar ul li {
+      margin-left: 1.5rem;
+    }
+
+    #navbar ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s, text-shadow 0.3s;
+      white-space: nowrap; /* テキストの折り返しを防ぐ */
+    }
+
+    #navbar ul li a:hover {
+      color: var(--accent);
+      text-shadow: 0 0 8px var(--accent);
+    }
+
+    @media (max-width: 992px) {
+      #navbar ul {
+        display: none; /* Hide nav links on smaller screens, consider a hamburger menu */
+      }
+    }
+
+    /* ---------- フッター ---------- */
+    footer {
+      background: var(--light-dark);
+      color: #fff;
+      padding: 2rem 0;
+      text-align: center;
+      border-top: 1px solid var(--primary);
+    }
+
+    footer .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 5vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    footer .social-links img {
+      width: 30px;
+      height: 30px;
+      margin: 0 0.5rem;
+      filter: drop-shadow(0 0 5px rgba(0, 255, 136, 0.3));
+      transition: transform 0.2s;
+    }
+
+    footer .social-links img:hover {
+      transform: translateY(-3px);
+    }
+  </style>
+</head>
+<body>
+  <nav id="navbar">
+    <div class="container">
+      <a href="#hero" class="logo">Planetary Learning</a>
+      <ul>
+        <li><a href="#about-planetary-learning">概要</a></li>
+        <li><a href="#history">背景課題</a></li>
+        <li><a href="#features">特長</a></li>
+        <li><a href="#how">仕組み</a></li>
+        <li><a href="#who">メリット</a></li>
+        <li><a href="#content-list">コンテンツ</a></li>
+        <li><a href="#competencies">コンピテンシー</a></li>
+        <li><a href="#vision">ビジョン</a></li>
+        <li><a href="#about-us">About Us</a></li>
+        <li><a href="#cta">参加</a></li>
+      </ul>
+    </div>
+  </nav>
+  <!-- Hero -->
+  <section id="hero">
+    <h1>違いはギフトだ。</h1>
+    <p>LOVE, HACK, PLANET.</p>
+    <button id="cta-btn">体験してみる</button>
+  </section>
+
+  <!-- About Planetary Learning -->
+  <section id="about-planetary-learning">
+    <h2>プラネタリーラーニング</h2>
+    <p>両極を統合し、違いがお互いのギフトになる学び</p>
+    <p>プラネタリーラーニングとは、他者、自然、AIと出会い、問いを立て、応答することで、自分と社会を編み直す新しい学びのプロセスです。違いを序列化や分断の原因にせず、違いのあいだをゆらいだり、往復したりすると、次元を上げて統合する可能性が開かれてきます。違いを統合への手がかりとすることができると、違いがお互いのギフトになります。このような学び方を身につけることで、惑星規模の共生社会で生きる力を身につけることができます。</p>
+  </section>
+
+  <!-- Timeline -->
+  <section id="history">
+    <h2>背景課題（Why Now）</h2>
+    <ul>
+      <li>標準化と正解主義の教育モデルの限界</li>
+      <li>探究学習における「自由な問い」「跳ねる学び」の欠如</li>
+      <li>AI時代の意味生成型能力の必要性</li>
+    </ul>
+    <div id="timeline">
+      <div class="card"><img src="assets/img/history-1945.jpg" alt="1945"/><h3>1945</h3><p>第二次世界大戦を経て<br>人類と技術の関係が問い直される</p></div>
+      <div class="card"><img src="assets/img/history-1960s.jpg" alt="1960s"/><h3>1960s</h3><p>Love & Peace ムーブメントで<br>自然との調和を志向</p></div>
+      <div class="card"><img src="assets/img/history-1970s.jpg" alt="1970s"/><h3>1970s</h3><p>パーソナルコンピュータ誕生<br>「コンピューターをみんなの手に」</p></div>
+      <div class="card"><img src="assets/img/history-2011.jpg" alt="2011"/><h3>2011</h3><p>福島の経験が<br>エネルギーと共生を再考する契機</p></div>
+      <div class="card"><img src="assets/img/history-2020s.jpg" alt="2020s"/><h3>2020s</h3><p>AIと自立分散型システムが<br>新たな共創の可能性を拓く</p></div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features">
+    <h2>プログラムの特長（What）</h2>
+    <ul>
+      <li>社会を「機械」ではなく「生態系」として捉える世界観</li>
+      <li>自己と世界との関係性を再構成する「問い→跳躍→再編」の学び</li>
+      <li>違いを分断や序列ではなく「問いの源泉」とする構造</li>
+      <li>プロジェクト実践中に必要なことを"その都度"AIと共に学ぶミッション・ベースド・ラーニング（Mission-Based Learning）</li>
+      <li>体系的な学び（陽）と生成的な学び（陰）を循環します</li>
+    </ul>
+    <p>体系的な学びは、すでに確立した知の体系を効率的に学ぶものです。生成的な学びは、新しいものが生まれてくる学びです。プラネタリーラーニングでは、これらを相互補完的なものと捉え、両者を行き来することで、一人ひとりが異なる学びの原理を身体化して統合することを目指します。</p>
+  </section>
+
+  <!-- How -->
+  <section id="how">
+    <h2>学習の仕組み（How）</h2>
+    <h3>陰陽循環による週次設計</h3>
+    <p>拠点を超えて繋がって学ぶプログラムです。週1回90～120分程度です。体系的な学び（陽）と生成的な学び（陰）を交互に行います。</p>
+    <table>
+      <thead>
+        <tr>
+          <th>週</th>
+          <th>陰陽</th>
+          <th>主体</th>
+          <th>内容</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="yang">
+          <td>第1週</td>
+          <td>陽（構成）</td>
+          <td>アドバイザー／メンター</td>
+          <td>思考法・スキル習得</td>
+        </tr>
+        <tr class="yin">
+          <td>第2週</td>
+          <td>陰（生成）</td>
+          <td>学習者＋コーディネーター</td>
+          <td>プロジェクト実践／動かしながら考える／問いの跳躍</td>
+        </tr>
+        <tr class="yang">
+          <td>第3週</td>
+          <td>陽（再構成）</td>
+          <td>アドバイザー／メンター</td>
+          <td>意味の整理／共有／対話</td>
+        </tr>
+        <tr class="yin">
+          <td>第4週</td>
+          <td>陰（再生成）</td>
+          <td>学習者＋コーディネーター</td>
+          <td>振り返り・問いの還元・新たな種の発芽</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>陽：思考法やスキルを構成的に学ぶフェーズ</h3>
+    <p>思考法やスキルを身につけることで、自分の問いを形にして社会へ届ける力をつける</p>
+    <table>
+      <thead>
+        <tr>
+          <th>領域</th>
+          <th>主なスキルセット</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>課題認識・意味づけ</td>
+          <td>感知力／構造把握／社会文脈接続力</td>
+        </tr>
+        <tr>
+          <td>代案創出</td>
+          <td>問いの跳躍／創発的思考／アイデア統合力</td>
+        </tr>
+        <tr>
+          <td>具現化・実装</td>
+          <td>プロトタイピング／ビジネスモデル設計／マーケティング／プレゼン／交渉力</td>
+        </tr>
+        <tr>
+          <td>共創・合意形成</td>
+          <td>跳躍的対話／コンセンサス形成／ファシリテーション</td>
+        </tr>
+        <tr>
+          <td>AI協働</td>
+          <td>GPT対話設計／AIとの共創学習／即時スキル獲得（MBL）</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>陰：生成的な学びのフェーズ（プロジェクト実践）</h3>
+    <p>"動かしながら考える"中で、問いが跳ね、関係性が生成される</p>
+    <ul>
+      <li>未来フェス：問いや成果を他者と交差させる発信の場</li>
+      <li>OST（Open Space Technology：参加者が自発的にテーマを設定し議論を深めるオープンフォーマット手法）：問いからプロジェクトが自発的に立ち上がる</li>
+      <li>相互報告・触発：各自の実践が、ちょっとした手助けがあれば達成できる学びの領域（ZPD）を刺激し、跳ね合う知へ</li>
+    </ul>
+
+    <h3>コーディネーター会議</h3>
+    <p>各拠点のコーディネーターによる事例共有や学び合いを隔週で行います。コーディネーター同士のつながりが、学習者の繋がりを生み出す源泉となります。</p>
+
+    <h3>実践の共有と相互ふりかえり</h3>
+    <ul>
+      <li>ZPD（最近接発達領域）の再設計：実践をもとに参加者の次なる一歩を見つけ、次週の学びに活かす</li>
+      <li>意味が生成される瞬間の記録と支援</li>
+    </ul>
+
+    <h3>陰陽の往復がつくる学びのOS</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>陽（構成）</th>
+          <th>陰（生成）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>思考法やスキルの習得</td>
+          <td>プロジェクトで使いながら問いが深まる</td>
+        </tr>
+        <tr>
+          <td>知識のモデル化</td>
+          <td>自分の問いを再構成し直す経験</td>
+        </tr>
+        <tr>
+          <td>メンタルモデルのメタ認知</td>
+          <td>ゆらぎや偶発からの跳躍</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>異なるカテゴリの参加者が共に学びます</h3>
+    <p>インストール型の学びでは、学習者を均一化する必要がありますが、違いを学びの源にするプラネタリーラーニングでは、学習者の多様性が重要になります。</p>
+  </section>
+
+  <!-- Who -->
+  <section id="who">
+    <h2>各参加者のメリット（Who）</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>属性</th>
+          <th>目的</th>
+          <th>参加形式</th>
+          <th>月額例</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>フリースクール</td>
+          <td>多様な学びの保障</td>
+          <td>コーディネーター2名＋地域窓口</td>
+          <td>2万円〜</td>
+        </tr>
+        <tr>
+          <td>学校</td>
+          <td>探究導入・教師育成</td>
+          <td>コーディネーター2名＋教材提供</td>
+          <td>4万円〜</td>
+        </tr>
+        <tr>
+          <td>中小企業</td>
+          <td>社会接続・未来人材育成</td>
+          <td>コーディネーター2名参加</td>
+          <td>6万円～</td>
+        </tr>
+        <tr>
+          <td>大企業</td>
+          <td>ESG／SDGs戦略</td>
+          <td>コーディネーター2名＋発信連携</td>
+          <td>12万円～</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Content List -->
+  <section id="content-list">
+    <h2>コンテンツ一覧</h2>
+    <div class="grid-container">
+      <div class="grid-item">フィールドワーク</div>
+      <div class="grid-item">傾聴（ディープ・リスニング）</div>
+      <div class="grid-item">システム思考</div>
+      <div class="grid-item">デザイン思考</div>
+      <div class="grid-item">アイディア創発</div>
+      <div class="grid-item">推論形式（帰納、演繹、アブダクション）</div>
+      <div class="grid-item">AI共創ラーニング</div>
+      <div class="grid-item">プロトタイピング</div>
+      <div class="grid-item">AIアプリ構築</div>
+      <div class="grid-item">バイブコーディング</div>
+      <div class="grid-item">ビジネスモデル</div>
+      <div class="grid-item">プレゼンテーション</div>
+      <div class="grid-item">マーケティング</div>
+      <div class="grid-item">交渉術</div>
+      <div class="grid-item">ファシリテーション</div>
+      <div class="grid-item">コンセンサス型合意形成</div>
+      <div class="grid-item">未来フェス</div>
+      <div class="grid-item">OST</div>
+      <div class="grid-item">プロジェクト実践</div>
+      <div class="grid-item">メンタリング</div>
+      <div class="grid-item">グループコーチング</div>
+      <div class="grid-item">ZINE作成</div>
+    </div>
+  </section>
+
+  <!-- Competencies -->
+  <section id="competencies">
+    <h2>育成される力（コンピテンシー）</h2>
+    <div class="grid-container">
+      <div class="grid-item">問いを立てる力（Abduction）</div>
+      <div class="grid-item">関係を再構成する力（Intra‑action）</div>
+      <div class="grid-item">意味を跳ねさせる力（創発）</div>
+      <div class="grid-item">プロトタイプで考える力（Making）</div>
+      <div class="grid-item">自分の物語を語る力（Narrative）</div>
+      <div class="grid-item">他者と共創する力（Facilitation）</div>
+      <div class="grid-item">AIと共に学ぶ力（Mission-Based Learning）</div>
+    </div>
+  </section>
+
+  
+
+  
+
+  <!-- Vision -->
+  <section id="vision">
+    <h2>ビジョン（Vision）</h2>
+    <p>「誰が正しいか」ではなく、「誰とどう関係し直せるか」</p>
+    <p>違いが跳ね、問いが生まれ、学びが社会と呼吸する循環へ。</p>
+    <p>プラネタリーラーニングは、そんな学びのOSをひらきます。</p>
+    <h3>Learning shifts when relationships shift</h3>
+    <p>人との関係が変われば、学びが変わる。<br>自分と世界のつながりを問い直すところから、すべてがはじまる。</p>
+    <p>あなたも、この循環に参加しませんか？</p>
+    <p>問い、跳ね、つながり直す。そんな学びの旅に、いま一歩を踏み出してみませんか？</p>
+  </section>
+
+  <!-- About Us -->
+  <section id="about-us">
+    <h2>About Us</h2>
+    <div>
+      <h3>田原真人</h3>
+      <p>社会変革デジタルファシリテーター。『Zoomオンライン革命！』『出現する参加型社会』など著書多数。全体コンセプトとAI共創ラーニングを担当</p>
+    </div>
+    <div>
+      <h3>野邊みなも</h3>
+      <p>デジタルを活用した探究学習を実践する教育コーディネーター。テレプレゼンスシステム「窓」を活用して学びのフィールドを拡張している。</p>
+    </div>
+    <div>
+      <h3>梅田雄基</h3>
+      <p>一人ひとりが自分の人生を構築する支援を行う私塾Bidenを主宰。自分史とコーチング、プロジェクトを組み合わせながら、自分のやりたいことを具体化する梅田メソッド開発者。</p>
+    </div>
+    <div>
+      <h3>北田朋也</h3>
+      <p>システム思考とNVCを組み合わせて学習する組織を実現した葵小学校の元リーダー。小学生を対象とした探究学習や生成AIの教育活用のトップランナー</p>
+    </div>
+    <div>
+      <h3>伊原敦子</h3>
+      <p>かすみがうら市のコミュニティスペースTAKiBiBAを主宰。一人ひとりの想いが交差し、コミュニティが生成するプロセスをサポートしている。</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta">
+    <img src="assets/img/cta-neon.png" alt="CTA"/>
+    <button id="cta-btn-bottom">今すぐ参加する</button>
+    <div class="cta-form">
+      <h3>最新情報を受け取る</h3>
+      <form action="#" method="POST">
+        <input type="email" placeholder="メールアドレス" required>
+        <button type="submit">登録</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 Planetary Learning. All rights reserved.</p>
+      <div class="social-links">
+        <!-- Add social media icons here -->
+        <a href="#"><img src="assets/img/social-twitter.png" alt="Twitter"></a>
+        <a href="#"><img src="assets/img/social-facebook.png" alt="Facebook"></a>
+        <a href="#"><img src="assets/img/social-linkedin.png" alt="LinkedIn"></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // フェードイン
+    const sections = document.querySelectorAll('section');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+
+    // スムーズスクロール
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>
