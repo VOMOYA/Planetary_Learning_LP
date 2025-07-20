@@ -48,6 +48,7 @@
       background-color: var(--dark); /* Default background for sections */
       background-image: radial-gradient(circle at center, rgba(2, 104, 115, 0.05) 1px, transparent 1px);
       background-size: 20px 20px;
+      scroll-margin-top: 5rem; /* 固定ヘッダーの高さ分を考慮 */
     }
 
     section.visible {
@@ -649,7 +650,7 @@
     /* ---------- ナビゲーションバー ---------- */
     #navbar {
       background: rgba(12, 15, 17, 0.9); /* var(--dark) with transparency */
-      padding: 1rem 0;
+      padding: 0.5rem 0;
       position: fixed;
       width: 100%;
       top: 0;
@@ -664,15 +665,17 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 5vw;
+      padding: 0 2vw; /* 左寄せのためにパディングを調整 */
     }
 
     #navbar .logo {
       color: var(--neon);
       font-family: var(--font-hacker);
-      font-size: 1.8rem;
+      font-size: 1.5rem; /* さらに小さく */
       text-decoration: none;
       text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
+      white-space: nowrap; /* 1行表示にする */
+      letter-spacing: -0.05em; /* 文字間隔を狭める */
     }
 
     #navbar ul {
@@ -690,6 +693,8 @@
       color: #fff;
       text-decoration: none;
       font-weight: 600;
+      font-size: 0.9rem; /* フォントサイズを小さく調整 */
+      letter-spacing: -0.03em; /* 文字間隔を詰める */
       transition: color 0.3s, text-shadow 0.3s;
       white-space: nowrap; /* テキストの折り返しを防ぐ */
     }
