@@ -221,9 +221,34 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: url('assets/img/hero.jpg') center/cover no-repeat;
+      background: url('assets/img/hero.png') center/cover no-repeat;
       filter: brightness(.5);
       z-index: -2;
+      background-size: cover; /* Ensure cover */
+      background-position: center; /* Ensure center */
+      animation: hero-zoom 30s infinite alternate; /* Subtle zoom animation */
+    }
+
+    #hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url('assets/img/noise.jpg');
+      opacity: 0.1;
+      z-index: -1;
+    }
+
+    @keyframes hero-zoom {
+      0% { background-size: 100%; }
+      100% { background-size: 120%; }
+    }
+
+    #hero h1 {
+      font-size: clamp(2.5rem, 6vw, 6rem);
+      font-family: var(--font-hippie);
+      color: #fff; /* Hero h1 should be white */
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* Stronger glow for hero title */
+      z-index: 1;
     }
 
     #hero p {
@@ -233,10 +258,99 @@
       letter-spacing: .05em;
       opacity: .9;
       color: #fff;
+      z-index: 1;
     }
 
     #cta-btn {
       margin-top: 3rem;
+      z-index: 1;
+    }
+
+    /* Typing Effect */
+    .typing-cursor {
+      display: inline-block;
+      width: 3px;
+      height: 1.2em; /* Adjust to font-size */
+      background-color: var(--neon);
+      animation: blink-caret 0.75s step-end infinite;
+    }
+
+    @keyframes blink-caret {
+      from, to { background-color: transparent; }
+      50% { background-color: var(--neon); }
+    }
+
+    /* Particles Background */
+    .particles-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1; /* Behind content, above hero:before */
+    }
+
+    .particle {
+      position: absolute;
+      background-color: var(--neon);
+      border-radius: 50%;
+      opacity: 0;
+      animation: particle-animation linear infinite;
+    }
+
+    @keyframes particle-animation {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      80% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) scale(0.5);
+        opacity: 0;
+      }
+    }
+
+    /* Scroll Down Indicator */
+    .scroll-down-indicator {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1;
+    }
+
+    .scroll-down-indicator span {
+      display: block;
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      transform: rotate(45deg);
+      margin: -5px;
+      animation: scroll-down 1.5s infinite;
+    }
+
+    .scroll-down-indicator span:nth-child(2) {
+      animation-delay: -0.2s;
+    }
+
+    .scroll-down-indicator span:nth-child(3) {
+      animation-delay: -0.4s;
+    }
+
+    @keyframes scroll-down {
+      0% { opacity: 0; transform: rotate(45deg) translate(-20px, -20px); }
+      50% { opacity: 1; transform: rotate(45deg) translate(0, 0); }
+      100% { opacity: 0; transform: rotate(45deg) translate(20px, 20px); }
     }
 
     /* ---------- About Planetary Learning ---------- */
@@ -265,7 +379,7 @@
     #timeline .card {
       min-width: auto; /* Remove min-width */
       width: 100%; /* Take full width */
-      max-width: 600px; /* Limit max width */
+      max-width: 750px; /* Increased card width */
       margin: 0 auto; /* Center cards */
       display: flex;
       flex-direction: column;
@@ -280,8 +394,8 @@
 
     #timeline .card img {
       width: 100%;
-      height: 180px; /* Fixed height for consistency */
-      object-fit: cover; /* Cover the area */
+      height: 300px; /* Increased image height */
+      object-fit: contain; /* Contain the area */
       border-radius: 12px;
       margin-bottom: 1rem;
     }
@@ -349,99 +463,138 @@
 
     /* ---------- CTA ---------- */
     #cta {
-      background: var(--light-dark);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      background: var(--dark); /* Darker base */
+      padding: 15vh 5vw;
+      position: relative;
+      overflow: hidden;
       text-align: center;
-      min-height: 60vh;
-      padding: 5vh 5vw;
-      background-image: none; /* Remove pattern for CTA */
+      border-top: 1px solid var(--primary);
     }
 
-    #cta img {
-      width: 70%;
-      max-width: 600px;
-      filter: drop-shadow(0 0 20px var(--neon));
-      animation: pulse 3s ease-in-out infinite;
-      margin-bottom: 2rem;
+    #cta::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 120%;
+      height: 120%;
+      background: radial-gradient(circle, rgba(2, 104, 115, 0.2) 0%, rgba(2, 104, 115, 0) 60%);
+      transform: translate(-50%, -50%);
+      animation: cta-glow 10s infinite alternate;
     }
 
-    @keyframes pulse {
-      0%, 100% {
-        opacity: .9;
+    @keyframes cta-glow {
+      from {
+        transform: translate(-50%, -50%) scale(1);
       }
-      50% {
-        opacity: 1;
+      to {
+        transform: translate(-50%, -50%) scale(1.3);
       }
     }
 
-    #cta-btn-bottom {
-      margin-top: 0; /* Reset margin for this specific button */
-      margin-bottom: 2rem;
+    .cta-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      margin: 0 auto;
     }
 
-    .cta-form {
-      background: var(--dark);
-      padding: 2rem;
-      border-radius: 12px;
-      border: 1px solid var(--primary);
-      max-width: 500px;
-      width: 100%;
-      box-shadow: 0 0 15px rgba(0, 255, 136, 0.1); /* Subtle form glow */
-    }
-
-    .cta-form h3 {
-      color: var(--neon);
+    #cta h2 {
+      color: #fff;
+      font-family: var(--font-hippie);
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
       margin-bottom: 1.5rem;
+    }
+
+    #cta p {
+      font-family: var(--font-hacker);
+      font-size: 1.1rem;
+      color: #ccc;
+      margin-bottom: 3rem;
     }
 
     .cta-form form {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 1.5rem;
+      align-items: center;
     }
 
     .cta-form input[type="email"] {
-      padding: 0.8rem;
-      border-radius: 8px;
+      width: 100%;
+      max-width: 500px;
+      padding: 1rem;
+      border-radius: 50px; /* Pill shape */
       border: 1px solid var(--primary);
-      background: #222;
-      color: #fff;
-      font-size: 1rem;
-    }
-
-    .cta-form button[type="submit"] {
-      padding: 0.8rem;
-      border-radius: 8px;
-      border: none;
-      background: var(--accent);
+      background: var(--light-dark);
       color: #fff;
       font-size: 1.1rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background .2s;
+      text-align: center;
+      font-family: var(--font-hacker);
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(0, 255, 136, 0.1);
     }
 
-    .cta-form button[type="submit"]:hover {
-      background: #e06230; /* Darker accent on hover */
+    .cta-form input[type="email"]:focus {
+      outline: none;
+      border-color: var(--neon);
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+    }
+
+    #cta .btn {
+      width: 100%;
+      max-width: 500px;
+      margin-top: 0; /* Override margin from .btn */
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      background: var(--neon);
+      color: var(--dark);
+      box-shadow: 0 0 15px var(--neon);
+    }
+
+    #cta .btn:hover {
+      background: #fff;
+      color: var(--dark);
+      box-shadow: 0 0 25px var(--neon);
+      transform: translateY(-5px);
     }
 
     /* ---------- About Us ---------- */
     #about-us {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      text-align: left;
+      text-align: center;
     }
 
-    #about-us div {
+    .instructor-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .instructor-card {
       background: var(--light-dark);
       padding: 1.5rem;
       border-radius: 12px;
       border: 1px solid var(--primary);
       box-shadow: 0 0 10px rgba(2, 104, 115, 0.2); /* Subtle card glow */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .instructor-card:nth-last-child(-n+2) {
+      grid-column: span 1;
+    }
+
+    #about-us div img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 1rem;
+      border: 3px solid var(--neon);
+      box-shadow: 0 0 10px var(--neon);
     }
 
     #about-us h3 {
@@ -594,9 +747,15 @@
   </nav>
   <!-- Hero -->
   <section id="hero">
-    <h1>違いはギフトだ。</h1>
-    <p>LOVE, HACK, PLANET.</p>
-    <button id="cta-btn">体験してみる</button>
+    <h1><span id="hero-title"></span></h1>
+    <p><span id="hero-subtitle"></span></p>
+    <button id="cta-btn" class="btn">体験してみる</button>
+    <div class="scroll-down-indicator">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="particles-container"></div>
   </section>
 
   <!-- About Planetary Learning -->
@@ -859,44 +1018,52 @@
   <!-- About Us -->
   <section id="about-us">
     <h2>About Us</h2>
-    <div>
-      <h3>田原真人</h3>
-      <p>社会変革デジタルファシリテーター。『Zoomオンライン革命！』『出現する参加型社会』など著書多数。全体コンセプトとAI共創ラーニングを担当</p>
-    </div>
-    <div>
-      <h3>野邊みなも</h3>
-      <p>デジタルを活用した探究学習を実践する教育コーディネーター。テレプレゼンスシステム「窓」を活用して学びのフィールドを拡張している。</p>
-    </div>
-    <div>
-      <h3>梅田雄基</h3>
-      <p>一人ひとりが自分の人生を構築する支援を行う私塾Bidenを主宰。自分史とコーチング、プロジェクトを組み合わせながら、自分のやりたいことを具体化する梅田メソッド開発者。</p>
-    </div>
-    <div>
-      <h3>北田朋也</h3>
-      <p>システム思考とNVCを組み合わせて学習する組織を実現した葵小学校の元リーダー。小学生を対象とした探究学習や生成AIの教育活用のトップランナー</p>
-    </div>
-    <div>
-      <h3>伊原敦子</h3>
-      <p>かすみがうら市のコミュニティスペースTAKiBiBAを主宰。一人ひとりの想いが交差し、コミュニティが生成するプロセスをサポートしている。</p>
+    <div class="instructor-grid">
+      <div class="instructor-card">
+        <img src="assets/img/tahara-manato.jpg" alt="田原真人">
+        <h3>田原真人</h3>
+        <p>社会変革デジタルファシリテーター。『Zoomオンライン革命！』『出現する参加型社会』など著書多数。全体コンセプトとAI共創ラーニングを担当</p>
+      </div>
+      <div class="instructor-card">
+        <img src="assets/img/nobe-minamo.jpg" alt="野邊みなも">
+        <h3>野邊みなも</h3>
+        <p>デジタルを活用した探究学習を実践する教育コーディネーター。テレプレゼンスシステム「窓」を活用して学びのフィールドを拡張している。</p>
+      </div>
+      <div class="instructor-card">
+        <img src="assets/img/umeda-yuki.jpg" alt="梅田雄基">
+        <h3>梅田雄基</h3>
+        <p>一人ひとりが自分の人生を構築する支援を行う私塾Bidenを主宰。自分史とコーチング、プロジェクトを組み合わせながら、自分のやりたいことを具体化する梅田メソッド開発者。</p>
+      </div>
+      <div class="instructor-card">
+        <img src="assets/img/kitada-tomoya.jpg" alt="北田朋也">
+        <h3>北田朋也</h3>
+        <p>システム思考とNVCを組み合わせて学習する組織を実現した葵小学校の元リーダー。小学生を対象とした探究学習や生成AIの教育活用のトップランナー</p>
+      </div>
+      <div class="instructor-card">
+        <img src="assets/img/ito-junko.jpg" alt="伊藤淳子">
+        <h3>伊藤淳子</h3>
+        <p>かすみがうら市のコミュニティスペースTAKiBiBAを主宰。一人ひとりの想いが交差し、コミュニティが生成するプロセスをサポートしている。</p>
+      </div>
     </div>
   </section>
 
   <!-- CTA -->
   <section id="cta">
-    <img src="assets/img/cta-neon.png" alt="CTA"/>
-    <button id="cta-btn-bottom">今すぐ参加する</button>
-    <div class="cta-form">
-      <h3>最新情報を受け取る</h3>
-      <form action="#" method="POST">
-        <input type="email" placeholder="メールアドレス" required>
-        <button type="submit">登録</button>
-      </form>
+    <div class="cta-content">
+      <h2>未来の学びへ、参加する</h2>
+      <p>プラネタリーラーニングの最新情報、イベントの案内、<br>そして、学びの旅への第一歩となる招待状をお届けします。</p>
+      <div class="cta-form">
+        <form action="#" method="POST">
+          <input type="email" placeholder="your.email@example.com" required>
+          <button type="submit" class="btn">旅をはじめる</button>
+        </form>
+      </div>
     </div>
   </section>
 
   <footer>
     <div class="container">
-      <p>&copy; 2024 Planetary Learning. All rights reserved.</p>
+      <p>&copy; 2025 Planetary Learning. All rights reserved.</p>
       <div class="social-links">
         <!-- Add social media icons here -->
         <a href="#"><img src="assets/img/social-twitter.png" alt="Twitter"></a>
@@ -930,6 +1097,55 @@
           behavior: 'smooth'
         });
       });
+    });
+
+    // タイピングエフェクト
+    const heroTitle = document.getElementById('hero-title');
+    const heroSubtitle = document.getElementById('hero-subtitle');
+    const titleText = "違いはギフトだ。";
+    const subtitleText = "LOVE, HACK, PLANET.";
+    let titleIndex = 0;
+    let subtitleIndex = 0;
+
+    function typeTitle() {
+      if (titleIndex < titleText.length) {
+        heroTitle.textContent += titleText.charAt(titleIndex);
+        titleIndex++;
+        setTimeout(typeTitle, 100);
+      } else {
+        heroTitle.innerHTML += '<span class="typing-cursor"></span>';
+        setTimeout(typeSubtitle, 500);
+      }
+    }
+
+    function typeSubtitle() {
+      if (subtitleIndex < subtitleText.length) {
+        heroSubtitle.textContent += subtitleText.charAt(subtitleIndex);
+        subtitleIndex++;
+        setTimeout(typeSubtitle, 70);
+      } else {
+        heroSubtitle.innerHTML += '<span class="typing-cursor"></span>';
+      }
+    }
+
+    // パーティクル背景
+    const particlesContainer = document.querySelector('.particles-container');
+    const numParticles = 50;
+
+    for (let i = 0; i < numParticles; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      particle.style.width = `${Math.random() * 3 + 1}px`;
+      particle.style.height = particle.style.width;
+      particle.style.left = `${Math.random() * 100}%`;
+      particle.style.animationDuration = `${Math.random() * 5 + 5}s`;
+      particle.style.animationDelay = `${Math.random() * 5}s`;
+      particlesContainer.appendChild(particle);
+    }
+
+    // ページロード時にタイピングエフェクトを開始
+    window.addEventListener('load', () => {
+      typeTitle();
     });
   </script>
 </body>
