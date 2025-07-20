@@ -72,7 +72,16 @@
     h2 {
       font-size: clamp(2rem, 4vw, 3.5rem);
       text-align: center;
-      margin-bottom: 3rem;
+      margin-bottom: 1rem; /* Adjusted for icon */
+    }
+
+    .section-icon {
+      display: block;
+      margin: 0 auto 2rem auto;
+      width: 150px;
+      height: 150px;
+      filter: drop-shadow(0 0 10px var(--neon));
+      opacity: 0.8;
     }
 
     h3 {
@@ -798,6 +807,7 @@
   <!-- How -->
   <section id="how">
     <h2>学習の仕組み（How）</h2>
+    <img src="assets/img/yin-yang-loop.png" alt="Yin Yang Loop" class="section-icon"/>
     <h3>陰陽循環による週次設計</h3>
     <p>拠点を超えて繋がって学ぶプログラムです。週1回90～120分程度です。体系的な学び（陽）と生成的な学び（陰）を交互に行います。</p>
     <table>
